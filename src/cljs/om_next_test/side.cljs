@@ -23,11 +23,11 @@
 (defn get-route
   [id]
   (get
-   {:workspaces :app/home
-    :data       :app/about
-    :settings   :app/home
-    :help       :app/about
-    :logout     :app/home}
+   {:workspaces :app/workspace-dash
+    :data       :app/data-dash
+    :settings   :app/workspace
+    :help       :app/workspace-dash
+    :logout     :app/data-dash}
    id))
 
 (defn add-side-elements!

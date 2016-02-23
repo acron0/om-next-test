@@ -2,33 +2,14 @@
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as sab]
             ;;
+            [om-next-test.dashboard.workspaces :as workspace-dash]
+            [om-next-test.dashboard.data :as data-dash]
             [om-next-test.split :as split]))
 
-(defui Home
-  static om/IQuery
-  (query [this]
-         [:home/title :home/content])
-  Object
-  (render [this]
-          (let [{:keys [home/title home/content]} (om/props this)]
-            (sab/html [:div
-                       [:h1 title]
-                       [:p content]]))))
-
-(defui About
-  static om/IQuery
-  (query [this]
-         [:about/title :about/content])
-  Object
-  (render [this]
-          (let [{:keys [about/title about/content]} (om/props this)]
-            (sab/html [:div
-                       [:h1 title]
-                       [:p content]]))))
-
 (def route->component
-  {:app/home Home
-   :app/about About})
+  {:app/workspace-dash workspace-dash/Main
+   :app/data-dash      data-dash/Main
+   :app/workspace      split/Main})
 
 (def route->factory
   (zipmap (keys route->component)
@@ -38,11 +19,11 @@
   static om/IQuery
   (query [this]
          (let [subq-ref (if (om/component? this)
-                          (:app/route (om/props this))
-                          :app/home) ;; default
+                          (-> (om/props this) :app/route)
+                          :app/workspace-dash)
                subq-class (get route->component subq-ref)]
            [:app/route {:route/data (om/subquery this subq-ref subq-class)}]))
   Object
   (render [this]
           (let [{:keys [app/route route/data]} (om/props this)]
-            ((route->factory  route) (assoc data :ref route)))))
+            ((route->factory route) (assoc data :ref route)))))

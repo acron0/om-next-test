@@ -15,13 +15,16 @@
                  [cljsjs/react "0.14.3-0"]
                  [cljsjs/react-dom "0.14.3-1"]
                  [cljsjs/react-dom-server "0.14.3-0"]
-                 [datascript "0.15.0"]]
+                 [datascript "0.15.0"]
+                 [cljs-log "0.2.2"]
+                 [com.andrewmcveigh/cljs-time "0.3.14"]]
 
   :plugins [[lein-figwheel "0.5.0-6" :exclusions [org.clojure/tools.reader]]
             [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]
             [lein-garden "0.2.6"]]
 
-  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
+  :profiles {:uberjar {:auto-clean false}
+             :dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.12"]]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
@@ -49,7 +52,8 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/om_next_test.js"
                            :output-dir "resources/public/js/compiled/out"
-                           :source-map-timestamp true}}
+                           :source-map-timestamp true
+                           :warnings {:single-segment-namespace false}}}
                {:id "prod"
                 :source-paths ["src/cljs"]
                 :compiler {:output-to "resources/public/js/compiled/om_next_test.js"
@@ -72,18 +76,17 @@
                                 ;; Compress the output?
                                 :pretty-print? false}}]}
 
-  :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
-             ;; :server-port 3449 ;; default
-             ;; :server-ip "127.0.0.1"
+  :figwheel {:css-dirs ["resources/public/css"] ;; watch and update CSS
+             :nrepl-port 7888}
+  :jvm-opts ["-Xmx2g"]
+  :release-tasks [["change" "version"
+                   "leiningen.release/bump-version" "release"]
+                  ["vcs" "commit"]
+                  ["vcs" "tag" "release-v"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["vcs" "commit"]
+                  ["vcs" "push"]])
 
-             :css-dirs ["resources/public/css"] ;; watch and update CSS
-
-             ;; Start an nREPL server into the running figwheel process
-             :nrepl-port 7888
-
-             ;; Server Ring Handler (optional)
-             ;; if you want to embed a ring handler into the figwheel http-kit
-             ;; server, this is for simple ring servers, if this
-             ;; doesn't work for you just run your own server :)
-             ;; :ring-handler hello_world.server/handler
-             })
+(comment
+  (do (use 'figwheel-sidecar.repl-api)
+      (cljs-repl)))

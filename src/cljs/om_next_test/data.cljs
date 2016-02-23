@@ -5,16 +5,16 @@
 (defonce app-state
   (atom
    {:app/side {:side/upper '([:button :workspaces]
-                             [:button :data])
+                             [:button :data]
+                             [:button :settings])
                :side/lower '([:button :help]
                              [:button :logout])}
-    :app/route :app/home
-    :app/dashboard-data {}
-    :app/dashboard-workspaces {}
-    :app/home {:home/title "Home page"
-               :home/content "This is the homepage. There isn't a lot to see here."}
-    :app/about {:about/title "About page"
-                :about/content "This is the about page, the place where one might write things about their own self."}}))
+    :app/route :app/workspace-dash
+    :app/workspace {:workspace/min-size 200}
+    :app/workspace-dash {:home/title "Workspace dash"
+                         :home/content "This is the homepage. There isn't a lot to see here."}
+    :app/data-dash {:about/title "Data dashboard"
+                    :about/content "This is the about page, the place where one might write things about their own self."}}))
 
 (def conn (d/create-conn {}))
 
@@ -25,8 +25,7 @@
 
 (defmulti mutate om/dispatch)
 
-(defn make-reconciler
-  []
+(defn make-reconciler []
   (om/reconciler
    {:state app-state
     :parser (om/parser {:read read :mutate mutate})}))
