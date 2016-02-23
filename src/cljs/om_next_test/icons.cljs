@@ -59,6 +59,10 @@
   [& args]
   (apply create-key "power_settings_new" args))
 
+(defn search
+  [& args]
+  (apply create-key "search" args))
+
 ;;
 
 (defcard loading
@@ -84,8 +88,9 @@
                     ["workspace" workspace]
                     ["data"      data]
                     ["help"      help]
-                    ["logout"    logout]]]
-     [:div {:style {:background-color "#aaa"}}
+                    ["logout"    logout]
+                    ["search"    search]]]
+     [:div {:style {:background-color "#fff"}}
       (for [[title icon-fn] all-icons]
         [:hr
          [:div

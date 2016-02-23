@@ -9,7 +9,7 @@
     {:font-family "'Fira Sans', sans-serif"})
    (gs/at-font-face
     {:font-family "'Kadwa', serif"})
-   [:body
+   [:body :p
     {:font-family base-fonts}]
    [:h1 :h2 :h3 :h4 :h5
     {:font-family title-fonts}]])
