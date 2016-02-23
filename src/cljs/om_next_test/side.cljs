@@ -9,8 +9,8 @@
    [devcards.core :as dc :refer [defcard]]))
 
 (defn get-icon
-  [icon]
-  (let [props [:medium :light]]
+  [id]
+  (let [props [:medium]]
     (apply
      (get
       {:workspaces  icons/workspace
@@ -18,15 +18,28 @@
        :settings    icons/cog
        :help        icons/help
        :logout      icons/logout}
-      icon) props)))
+      id) props)))
+
+(defn get-route
+  [id]
+  (get
+   {:workspaces :app/home
+    :data       :app/about
+    :settings   :app/home
+    :help       :app/about
+    :logout     :app/home}
+   id))
 
 (defn add-side-elements!
-  [element-list]
-  (for [[element-type element-key element-content] element-list]
+  [this element-list]
+  (for [[element-type element-key] element-list]
     [:div.side-element
      {:key element-key}
      (condp = element-type
-       :button (get-icon element-key)
+       :button
+       [:div.side-link
+        {:on-click #(om/transact! this `[(change/route! {:route ~(get-route element-key)})])}
+        (get-icon element-key)]
        :hr [:hr])]))
 
 (defui Main
@@ -39,10 +52,10 @@
                                                      (get-in (om/props this)))]
             (sab/html [:div#side-container
                        [:div#side-upper
-                        (add-side-elements! upper)]
+                        (add-side-elements! this upper)]
                        [:div#side-lower
                         {:align "center"}
-                        (add-side-elements! lower)]]))))
+                        (add-side-elements! this lower)]]))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;

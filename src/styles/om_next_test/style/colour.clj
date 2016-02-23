@@ -50,3 +50,4 @@
 ;;
 (def side-bg color-primary-2)
 (def side-text 'white)
+(def side-icons-inactive "#ccc")
