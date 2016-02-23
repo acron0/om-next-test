@@ -8,6 +8,8 @@
             [om-next-test.style.login      :as login]
             [om-next-test.style.side       :as side]
             [om-next-test.style.app        :as app]
+            [om-next-test.style.dashboard  :as dashboard]
+            [om-next-test.style.shared     :as shared]
             ;;
             [om-next-test.ext-style.splitjs :as splitjs]))
 
@@ -20,6 +22,8 @@
     login/style
     side/style
     app/style
+    dashboard/style
+    shared/style
     ;;
     splitjs/style]
    ;;

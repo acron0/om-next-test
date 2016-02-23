@@ -18,5 +18,7 @@
                                   :cursor "row-resize"}))))
   (render [this]
           (sab/html [:div#split-container
-                     [:div#primary]
-                     [:div#secondary]])))
+                     [:div#primary
+                      [:h1 "Top"]]
+                     [:div#secondary
+                      [:h2 "Bottom"]]])))
