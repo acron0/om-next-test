@@ -110,7 +110,7 @@
    :string/browser-upload-completes       "Please wait whilst your upload completes..."
    :string/superseded                     "Superseded"
    :string/tooltip-workspace              "Browse your workspaces"
-   :string/tooltip-data "Browse your data sets"})
+   :string/tooltip-data                   "Browse your data sets"})
 
 
 
