@@ -4,7 +4,8 @@
             [om.next :as om :refer-macros [defui]]
             [sablono.core :as sab :include-macros true]
             ;;
-            [om-next-test.icons :as icons])
+            [om-next-test.icons :as icons]
+            [om-next-test.strings :refer [get-string]])
   (:require-macros
    [devcards.core :as dc :refer [defcard]]))
 
@@ -20,14 +21,14 @@
        :logout      icons/logout}
       id) props)))
 
-(defn get-route
+(defn get-details
   [id]
   (get
-   {:workspaces :app/workspace-dash
-    :data       :app/data-dash
-    :settings   :app/workspace
-    :help       :app/workspace-dash
-    :logout     :app/data-dash}
+   {:workspaces {:route :app/workspace-dash :tooltip :string/tooltip-workspace}
+    :data       {:route :app/data-dash      :tooltip :string/tooltip-data}
+    :settings   {:route :app/workspace      :tooltip :string/tooltip-workspace}
+    :help       {:route :app/workspace-dash :tooltip :string/tooltip-data}
+    :logout     {:route :app/data-dash      :tooltip :string/tooltip-workspace}}
    id))
 
 (defn add-side-elements!
@@ -37,9 +38,17 @@
      {:key element-key}
      (condp = element-type
        :button
-       [:div.side-link
-        {:on-click #(om/transact! this `[(change/route! {:route ~(get-route element-key)})])}
-        (get-icon element-key)]
+       (let [{:keys [route tooltip]} (get-details element-key)]
+         [:div.side-link
+          {:on-click #(om/transact! this `[(change/route! {:route ~route})])
+           :data-ot (get-string tooltip)
+           :data-ot-style "dark"
+           :data-ot-tip-joint "left"
+           :data-ot-fixed true
+           :data-ot-target true
+           :data-ot-delay 0.5
+           :data-ot-contain-in-viewport false}
+          (get-icon element-key)])
        :hr [:hr])]))
 
 (defui Main

@@ -108,7 +108,9 @@
    :string/new-version-no-downloads       "Once you have run your first projection, your data will be available here. Start this at the 'Inputs' section"
    :string/about-model                    "About this model"
    :string/browser-upload-completes       "Please wait whilst your upload completes..."
-   :string/superseded                     "Superseded"})
+   :string/superseded                     "Superseded"
+   :string/tooltip-workspace              "Browse your workspaces"
+   :string/tooltip-data "Browse your data sets"})
 
 
 
