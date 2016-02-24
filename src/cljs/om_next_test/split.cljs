@@ -2,12 +2,13 @@
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as sab]
             ;;
-            [om-next-test.utils :as utils]))
+            [om-next-test.utils :as utils])
+  (:require-macros [cljs-log.core :as log]))
 
 (defui Main
   static om/IQuery
   (query [this]
-         [:workspace/min-size])
+         [:workspace/min-size :app/route-params])
   Object
   (componentDidMount [this]
                      (let [{:keys [workspace/min-size]} (om/props this)]
@@ -18,9 +19,10 @@
                                   :gutterSize 8
                                   :minSize min-size
                                   :cursor "row-resize"}))))
-  (render [this]
-          (sab/html [:div#split-container
-                     [:div#primary
-                      [:h1 "Top"]]
-                     [:div#secondary
-                      [:h2 "Bottom"]]])))
+]
+          (let [{:keys [app/route-params workspace/min-size]} (om/props this)]
+            (sab/html [:div#split-container
+                       [:div#primary
+                        [:h1 (str "Top: " min-size)]]
+                       [:div#secondary
+                        [:h1 (str "Bottom: " route-params)]]]))))

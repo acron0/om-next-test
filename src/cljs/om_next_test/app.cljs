@@ -22,9 +22,9 @@
 
 (def route-patterns
   ["/" {"" nil
-        "dashboard/" {"data" :app/data-dash
+        "dashboard/" {"data"      :app/data-dash
                       "workspace" :app/workspace-dash}
-        ["workspace/" :id] :app/workspace}])
+        ["workspace/" :id]        :app/workspace}])
 
 (defn path-exists?
   [path]
@@ -34,9 +34,9 @@
   [path]
   (let [route (bidi/match-route route-patterns path)]
     (if route
-      (let [{:keys [handler]} route]
+      (let [{:keys [handler route-params]} route]
         (log/debug "Dispatching to route:" path "=>" handler)
-        (om/transact! (data/make-reconciler) `[(change/route! {:route ~handler})]))
+        (om/transact! (data/make-reconciler) `[(change/route! {:route ~handler :route-params ~route-params})]))
       (log/severe "Couldn't match a route to this path:" path))))
 
 (defn navigate!

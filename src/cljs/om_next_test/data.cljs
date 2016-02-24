@@ -1,6 +1,7 @@
 (ns om-next-test.data
   (:require [datascript.core :as d]
-            [om.next :as om]))
+            [om.next :as om])
+  (:require-macros [cljs-log.core :as log]))
 
 (defonce app-state
   (atom
@@ -10,6 +11,7 @@
                :side/lower '([:button :help]
                              [:button :logout])}
     :app/route :app/workspace-dash
+    :app/route-params nil
     :app/workspace {:workspace/min-size 200}
     :app/workspace-dash {:home/title "Workspace dash"
                          :home/content "This is the homepage. There isn't a lot to see here."}
@@ -22,7 +24,6 @@
                     :app/count 3}])
 
 (defmulti read om/dispatch)
-
 (defmulti mutate om/dispatch)
 
 (defn make-reconciler []
@@ -38,7 +39,9 @@
 (defmethod read :route/data
   [{:keys [state query]} k _]
   (let [st @state]
-    {:value (get st (get st :app/route))}))
+    (let [result (get st (get st :app/route))
+          with-route-params (assoc result :app/route-params (get st :app/route-params))]
+      {:value (select-keys with-route-params query)})))
 
 (defmethod read :app/side
   [{:keys [state query]} _ _]
@@ -52,6 +55,8 @@
                  :where [?e :app/count]]
                (d/db state) query)})
 
+;;;;;;
+
 (defmethod mutate 'app/increment
   [{:keys [state]} _ entity]
   {:value {:keys [:app/counter]}
@@ -61,6 +66,8 @@
               [(update-in entity [:app/count] inc)]))})
 
 (defmethod mutate 'change/route!
-  [{:keys [state]} _ {:keys [route]}]
+  [{:keys [state]} _ {:keys [route route-params]}]
   {:value {:keys [:app/route]}
-   :action #(swap! state assoc :app/route route)})
+   :action #(let [current-route (:app/route @state)]
+              (swap! state assoc :app/route route)
+              (swap! state assoc :app/route-params route-params))})
