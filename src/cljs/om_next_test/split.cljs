@@ -1,6 +1,8 @@
 (ns om-next-test.split
   (:require [om.next :as om :refer-macros [defui]]
-            [sablono.core :as sab]))
+            [sablono.core :as sab]
+            ;;
+            [om-next-test.utils :as utils]))
 
 (defui Main
   static om/IQuery

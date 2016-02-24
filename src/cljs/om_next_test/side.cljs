@@ -5,7 +5,8 @@
             [sablono.core :as sab :include-macros true]
             ;;
             [om-next-test.icons :as icons]
-            [om-next-test.strings :refer [get-string]])
+            [om-next-test.strings :refer [get-string]]
+            [om-next-test.app :as app])
   (:require-macros
    [devcards.core :as dc :refer [defcard]]))
 
@@ -40,7 +41,8 @@
        :button
        (let [{:keys [route tooltip]} (get-details element-key)]
          [:div.side-link
-          {:on-click #(om/transact! this `[(change/route! {:route ~route})])
+          {;:on-click #(om/transact! this `[(change/route! {:route ~route})])
+           :on-click #(app/navigate! route {:id 123})
            :data-ot (get-string tooltip)
            :data-ot-style "dark"
            :data-ot-tip-joint "left"

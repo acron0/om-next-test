@@ -17,7 +17,9 @@
                  [cljsjs/react-dom-server "0.14.3-0"]
                  [datascript "0.15.0"]
                  [cljs-log "0.2.2"]
-                 [com.andrewmcveigh/cljs-time "0.3.14"]]
+                 [com.andrewmcveigh/cljs-time "0.3.14"]
+                 [bidi "2.0.0"]
+                 [venantius/accountant "0.1.7"]]
 
   :plugins [[lein-figwheel "0.5.0-6" :exclusions [org.clojure/tools.reader]]
             [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]
