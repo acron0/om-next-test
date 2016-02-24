@@ -47,6 +47,10 @@
 (def button-primary   normal)
 (def button-secondary (color/lighten button-primary 10))
 
-;;
+;; side
 (def side-bg color-primary-2)
 (def side-text 'white)
+(def side-icons-inactive "#ccc")
+
+;; dash
+(def dash-heading-bg (color/lighten color-primary-1 20))

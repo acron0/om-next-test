@@ -4,8 +4,7 @@
 
 (def style
   [[:.material-icons
-    {:color (rgba 0 0 0 0.54)
-     :font-size (px 32)}]
+    {:font-size (px 32)}]
    [:.material-icons.md-s
     {:font-size (px 18)}]
    [:.material-icons.md-m
@@ -15,7 +14,7 @@
    [:.material-icons.md-xl
     {:font-size (px 72)}]
    [:.material-icons.md-dark
-    {:color (rgba 0 0 0 1)}]
+    {:color (rgba 0 0 0 0.54)}]
    [:.material-icons.md-dark.md-inactive
     {:color (rgba 0 0 0 0.26)}]
    [:.material-icons.md-light
